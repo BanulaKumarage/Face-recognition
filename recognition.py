@@ -4,6 +4,9 @@ import pickle
 import time
 import cv2
 import os
+
+total_comparisons = 0
+total_matches = 0
  
 #find path of xml file containing haarcascade file 
 cascPathface = os.path.dirname(
@@ -55,6 +58,9 @@ while True:
                 counts[name] = counts.get(name, 0) + 1
             #set name which has highest count
             name = max(counts, key=counts.get)
+
+            total_matches += 1
+        total_comparisons += len(matches)  # increment the total number of comparisons made
  
  
         # update the list of names
@@ -71,3 +77,7 @@ while True:
         break
 video_capture.release()
 cv2.destroyAllWindows()
+
+if total_comparisons > 0:
+    accuracy = total_matches / total_comparisons
+    print (f"{total_matches}/{total_comparisons}")
