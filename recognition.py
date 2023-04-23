@@ -36,7 +36,6 @@ while True:
 
         for i, prob in enumerate(prob_list):
             if prob>0.90:
-                name = 'Unknown'
                 emb = resnet(img_cropped_list[i].unsqueeze(0)).detach() 
 
                 dist_list = [] # list of matched distances, minimum distance is used to identify the person
