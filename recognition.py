@@ -36,6 +36,7 @@ while True:
 
         for i, prob in enumerate(prob_list):
             if prob>0.90:
+                name = 'Unknown'
                 emb = resnet(img_cropped_list[i].unsqueeze(0)).detach() 
 
                 dist_list = [] # list of matched distances, minimum distance is used to identify the person
@@ -49,21 +50,23 @@ while True:
                 name = name_list[min_dist_idx] # get name corrosponding to minimum dist
 
                 box = boxes[i] 
+                box = box.astype(int)
 
                 original_frame = frame.copy() # storing copy of frame before drawing on it
 
-                if min_dist<0.90:
-                    box = box.astype(int)
-                    frame = cv2.putText(
-                        frame,
-                        f'{name} {str(min_dist)}',
-                        (box[0], box[1]),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        1,
-                        (0, 255, 0),
-                        1,
-                        cv2.LINE_AA,
-                    )
+                if min_dist >= 0.90:
+                    name= 'Unknown'
+
+                frame = cv2.putText(
+                    frame,
+                    f'{name}',
+                    (box[0], box[1]),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    1,
+                    (0, 255, 0),
+                    1,
+                    cv2.LINE_AA,
+                )
 
                 box = box.astype(int)
                 frame = cv2.rectangle(frame, (box[0],box[1]) , (box[2],box[3]), (255,0,0), 2)
