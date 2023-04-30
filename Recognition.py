@@ -58,6 +58,10 @@ class FaceRecognition:
                 print("fail to grab frame, try again")
                 break
 
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frame = cv2.equalizeHist(frame)
+            frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+
             img = Image.fromarray(frame)
             img_cropped_list, prob_list = mtcnn(img, return_prob=True) 
 
